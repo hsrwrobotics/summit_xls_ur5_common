@@ -16,7 +16,7 @@
 	<xacro:property name="hq" value="true" />
 	
 	<!-- Import Summit XL Steel -->
-	<xacro:include filename="$(find summit_xl_description)/robots/summit_xl_hls_omni.urdf.xacro"/>
+	<xacro:include filename="$(find summit_xl_description)/robots/summit_xls_std.urdf.xacro"/>
 
 	<!-- Import UR5 arm -->
 	<xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
@@ -34,12 +34,12 @@
     </joint -->
 
 	<!-- UR5 Arm -->
-    <xacro:ur5_robot prefix="arm_" joint_limited="true">		
+    <xacro:ur5_robot prefix="$(prefix)arm_" joint_limited="true">		
     </xacro:ur5_robot>
 
     <joint name="arm_base_joint" type="fixed">
 		<origin xyz="0.175 0 0.303" rpy="0 0 0" />
-		<parent link="base_link" />
+		<parent link="$(arg prefix)base_link" />
 		<child link="arm_base_link" />
 	</joint>
 	   
