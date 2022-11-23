@@ -2,13 +2,19 @@
 Common package for the Summit XL Steel + UR5 arm for ROS Melodic.
 
 ## Depends
-Clone the following into catkin workspace
+Clone the following into catkin workspace and switch to the melodic branches in al
 - [robotnik msg][rbnk-msg]
 - [robotnik sensors][rbnk-sns]
 - [summit XL Common][rbnk-xl-c]
 - [ur description][ur-desc]
 
-and then build them using `catkin`.
+Find any other missing ROS dependencies using `rosdep`
+```bash
+rosdep install --from-paths src --ignore-src --rosdistro melodic -y
+```
+
+
+And then build them using `catkin`.
 
 
 

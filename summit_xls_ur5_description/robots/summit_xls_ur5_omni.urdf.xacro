@@ -10,21 +10,22 @@
 
 	<xacro:property name="base_arm_x" value="0.175"/>
 	<xacro:property name="base_arm_y" value="0.0"/>
-	<xacro:property name="base_arm_z" value="0.303"/>
+	<xacro:property name="base_arm_z" value="0.3875"/>
 	  
 	<!-- Flag to select the high or low quality model -->
 	<xacro:property name="hq" value="true" />
+	<xacro:arg name="ros_planar_move_plugin" default="false"/>
 	
 	<!-- Import Summit XL Steel -->
-	<xacro:include filename="$(find summit_xl_description)/robots/summit_xls_std.urdf.xacro"/>
+	<xacro:include filename="$(find summit_xls_ur5_description)/robots/summit_xls_std.urdf.xacro"/>
 
 	<!-- Import UR5 arm -->
 	<xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
 
 	<!-- SENSORS -->
-    <!-- xacro:sensor_sick_s300 name="laser_front" parent="base_link">
+    <!-- <xacro:sensor_sick_s300 name="laser_front" parent="base_link">
 		<origin xyz="${front_laser_offset_x} ${front_laser_offset_y} ${front_laser_offset_z}" rpy="0 0 ${-PI/4.0}"/>
-	</xacro:sensor_sick_s300 -->
+	</xacro:sensor_sick_s300> -->
     
     <!-- xacro:BB2-08S2C-38 frame="bumblebee2" name="bumblebee2" />
 		<joint name="world_camera_joint" type="fixed">
@@ -38,7 +39,7 @@
     </xacro:ur5_robot>
 
     <joint name="$(arg prefix)arm_base_joint" type="fixed">
-		<origin xyz="0.175 0 0.303" rpy="0 0 0" />
+		<origin xyz="${base_arm_x} ${base_arm_y} ${base_arm_z}" rpy="0 0 0" />
 		<parent link="$(arg prefix)base_link" />
 		<child link="$(arg prefix)arm_base_link" />
 	</joint>
