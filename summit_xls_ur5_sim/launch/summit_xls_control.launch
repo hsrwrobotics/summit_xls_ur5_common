@@ -16,6 +16,9 @@
   <arg name="cmd_vel" default="robotnik_base_control/cmd_vel"/>
   <arg name="launch_pantilt_camera_controller" default="false"/>
   <arg name="odom_broadcast_tf" default="true"/>
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg name="limited" default="false"/>
   <!-- kinova arm -->
   <!-- <arg name="kinova_arm" default="j2s7s300"/>
   <arg name="arm_prefix" default="$(arg prefix)$(arg kinova_arm)"/> -->
@@ -50,16 +53,38 @@
 
     <!-- UR5 -->
     <!-- send fake joint values -->
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
       <param name="use_gui" value="TRUE"/>
       <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+    </node> -->
+    <!-- <include file="$(find ur_gazebo)/launch/controller_utils.launch"/> -->
+    <!-- Robot state publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" type="string" value="" />
     </node>
-    <include file="$(find summit_xls_ur5_moveit_config)/launch/move_group.launch">
-      <arg name="allow_trajectory_execution" value="true"/>
-      <arg name="fake_execution" value="true"/>
-      <arg name="info" value="true"/>
-      <arg name="debug" value="false"/>
+
+    <!-- joint_state_controller -->
+    <rosparam file="$(find ur_gazebo)/controller/joint_state_controller.yaml" command="load"/>
+    <node name="joint_state_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn joint_state_controller" respawn="false" output="screen"/>
+
+    <!-- start this controller -->
+    <rosparam file="$(find summit_xls_ur5_moveit_config_new)/config/arm_controller_gazebo.yaml" command="load"/>
+    <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn fake_arm_controller" respawn="false" output="screen"/>
+
+    <!-- load other controllers -->
+    <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="load joint_group_position_controller" />
+
+    <!-- Remap follow_joint_trajectory -->
+    <remap if="$(arg sim)" from="/follow_joint_trajectory" to="/fake_arm_controller/follow_joint_trajectory"/>
+    
+    <!-- Launch moveit -->
+    <include file="$(find summit_xls_ur5_moveit_config_new)/launch/move_group.launch">
+      <!-- <arg name="limited" default="$(arg limited)"/> -->
+      <arg name="debug" default="$(arg debug)" />
     </include>
+
+    
 
     <!-- if it has camera ptz -->
     <group if="$(arg launch_pantilt_camera_controller)">

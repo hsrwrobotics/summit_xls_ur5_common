@@ -63,9 +63,10 @@
                 gps_longitude:='$(arg gps_longitude)'
                 --inorder"/>
 
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+            <param name="publish_frequency" type="double" value="20.0" />
             <remap from="/joint_states" to="joint_states" />
-        </node>
+        </node> -->
 
         <!-- Spawner model into gazebo -->
         <node name="urdf_spawner_summit_xls" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"

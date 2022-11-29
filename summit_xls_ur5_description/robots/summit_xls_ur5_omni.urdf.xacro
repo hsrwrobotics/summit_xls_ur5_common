@@ -15,6 +15,7 @@
 	<!-- Flag to select the high or low quality model -->
 	<xacro:property name="hq" value="true" />
 	<xacro:arg name="ros_planar_move_plugin" default="false"/>
+	<xacro:arg name="prefix" default="summit_xls_"/>
 	
 	<!-- Import Summit XL Steel -->
 	<xacro:include filename="$(find summit_xls_ur5_description)/robots/summit_xls_std.urdf.xacro"/>

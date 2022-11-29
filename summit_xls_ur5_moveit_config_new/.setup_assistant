@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: summit_xls_ur5_description
+    relative_path: robots/summit_xls_ur5_omni.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/summit_xls_ur5.srdf
+  CONFIG:
+    author_name: Mamen Thomas
+    author_email: 24448@hsrw.org
+    generated_timestamp: 1669744595
