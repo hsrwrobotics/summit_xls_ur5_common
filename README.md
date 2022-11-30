@@ -25,19 +25,27 @@ roslaunch summit_xls_ur5_description summit_xls_ur5_omni_rviz.launch
 ```
 
 
-### Test Gazebo RVIZ
+
+### Test Gazebo, RVIZ and Moveit
 ```bash
 roslaunch summit_xls_ur5_sim summit_xls_ur5_gazebo.launch
 ```
 Launch RVIZ separately
 ```bash
-roslaunch summit_xls_ur5_moveit_config_new moveit_rviz.launch
+roslaunch summit_xls_ur5_moveit_config moveit_rviz.launch
 ```
+And use the motion planning plugin (should be already loaded) to calculat trajectories
+
+
+### Control arm joints directly 
+```bash
+roslaunch summit_xls_ur5_sim summit_xls_ur5_gazebo.launch
+```
+
 Then run this to control the arm
 ```bash
 ROS_NAMESPACE=summit_xls rosrun rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 ```
-
 
 [rbnk-msg]: https://github.com/RobotnikAutomation/robotnik_msgs/tree/melodic-devel
 [rbnk-sns]: https://github.com/RobotnikAutomation/robotnik_sensors
